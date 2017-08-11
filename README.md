@@ -2,12 +2,9 @@
 
 This is the BBMRI negotiator
 
-## Links (MITRO related)
+## Maven note
 
-- [Jira](https://jira.mitro.dkfz.de/secure/RapidBoard.jspa?rapidView=9&projectKey=BIO)
-- [Bitbucket](https://code.mitro.dkfz.de/projects/BIO)
-- [Confluence](https://wiki.mitro.dkfz.de/display/BIO/Biobank+Home)
-
+In order to access our maven deployed libraries, see here: https://maven.mitro.dkfz.de/external.html
 
 ## Development mode
 
