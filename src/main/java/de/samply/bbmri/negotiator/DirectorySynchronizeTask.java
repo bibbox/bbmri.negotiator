@@ -65,6 +65,9 @@ public class DirectorySynchronizeTask extends TimerTask {
 
             logger.info("Starting synchronization with the directory");
 
+            // Just for testing
+            //System.setProperty("http.maxRedirects", "100");
+
             List<DirectoryBiobank> allBiobanks = client.getAllBiobanks();
 
             for(DirectoryBiobank dto : allBiobanks) {
