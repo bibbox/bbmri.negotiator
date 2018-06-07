@@ -29,6 +29,7 @@ package de.samply.bbmri.negotiator;
 import java.util.List;
 import java.util.TimerTask;
 
+import de.samply.bbmri.negotiator.jooq.tables.records.DirectoryCatalogueRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,27 +58,39 @@ public class DirectorySynchronizeTask extends TimerTask {
     @Override
     public void run() {
         try(Config config = (this.config!=null?this.config:ConfigFactory.get())) {
+            List<DirectoryCatalogueRecord> directories = DbUtil.getDirectories(config);
+            for(DirectoryCatalogueRecord directoryCatalogueRecord : directories) {
+                if (directoryCatalogueRecord.getSyncActive()) {
+                    runDirectorySync(directoryCatalogueRecord.getId(), directoryCatalogueRecord.getName(), directoryCatalogueRecord.getRestUrl(), directoryCatalogueRecord.getResourceBiobanks(),
+                            directoryCatalogueRecord.getResourceCollections(), directoryCatalogueRecord.getApiUsername(), directoryCatalogueRecord.getApiPassword());
+                }
+            }
+        } catch (Exception e) {
+            logger.error("Synchronization all directories failed", e);
+            NegotiatorStatus.get().newFailStatus(NegotiatorStatus.NegotiatorTaskType.DIRECTORY, e.getMessage());
+        }
+    }
+
+    public void runDirectorySync(int directoryCatalogueId, String name, String dirBaseUrl, String resourceBiobanks, String resourceCollections, String username, String password) {
+        try(Config config = (this.config!=null?this.config:ConfigFactory.get())) {
             Negotiator negotiatorConfig = NegotiatorConfig.get().getNegotiator();
 
-            DirectoryClient client = new DirectoryClient(negotiatorConfig.getMolgenisRestUrl(),
-                    negotiatorConfig.getMolgenisResourceBiobanks(), negotiatorConfig.getMolgenisResourceCollections(),
-                    negotiatorConfig.getMolgenisApiUsername(), negotiatorConfig.getMolgenisApiPassword());
+            DirectoryClient client = new DirectoryClient(dirBaseUrl,
+                    resourceBiobanks, resourceCollections,
+                    username, password);
 
-            logger.info("Starting synchronization with the directory");
-
-            // Just for testing
-            //System.setProperty("http.maxRedirects", "100");
+            logger.info("Starting synchronization with the directory " + name);
 
             List<DirectoryBiobank> allBiobanks = client.getAllBiobanks();
 
             for(DirectoryBiobank dto : allBiobanks) {
-                DbUtil.synchronizeBiobank(config, dto);
+                DbUtil.synchronizeBiobank(config, dto, directoryCatalogueId);
             }
 
             List<DirectoryCollection> allCollections = client.getAllCollections();
 
             for(DirectoryCollection dto : allCollections) {
-                DbUtil.synchronizeCollection(config, dto);
+                DbUtil.synchronizeCollection(config, dto, directoryCatalogueId);
             }
 
             logger.info("Synchronization with the directory finished.");
@@ -86,7 +99,7 @@ public class DirectorySynchronizeTask extends TimerTask {
             NegotiatorStatus.get().newSuccessStatus(NegotiatorStatus.NegotiatorTaskType.DIRECTORY,
                     "Biobanks: " + allBiobanks.size() + ", Collections: " + allCollections.size());
         } catch (Exception e) {
-            logger.error("Synchronization failed", e);
+            logger.error("Synchronization failed with " + name + " url: " + dirBaseUrl, e);
             NegotiatorStatus.get().newFailStatus(NegotiatorStatus.NegotiatorTaskType.DIRECTORY, e.getMessage());
         }
     }

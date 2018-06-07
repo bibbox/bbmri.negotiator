@@ -79,16 +79,16 @@ public class BiobankDao extends DAOImpl<BiobankRecord, de.samply.bbmri.negotiato
 	}
 
 	/**
+	 * Fetch records that have <code>directory_catalogue_id IN (values)</code>
+	 */
+	public List<de.samply.bbmri.negotiator.jooq.tables.pojos.Biobank> fetchByDirectoryCatalogueId(Integer... values) {
+		return fetch(Biobank.BIOBANK.DIRECTORY_CATALOGUE_ID, values);
+	}
+
+	/**
 	 * Fetch records that have <code>directory_id IN (values)</code>
 	 */
 	public List<de.samply.bbmri.negotiator.jooq.tables.pojos.Biobank> fetchByDirectoryId(String... values) {
 		return fetch(Biobank.BIOBANK.DIRECTORY_ID, values);
-	}
-
-	/**
-	 * Fetch a unique record that has <code>directory_id = value</code>
-	 */
-	public de.samply.bbmri.negotiator.jooq.tables.pojos.Biobank fetchOneByDirectoryId(String value) {
-		return fetchOne(Biobank.BIOBANK.DIRECTORY_ID, value);
 	}
 }

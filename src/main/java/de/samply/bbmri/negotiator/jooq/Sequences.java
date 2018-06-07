@@ -44,6 +44,11 @@ public class Sequences {
 	public static final Sequence<Long> CONNECTOR_LOG_ID_SEQ = new SequenceImpl<Long>("connector_log_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
 
 	/**
+	 * The sequence <code>public.directory_catalogue_id_seq</code>
+	 */
+	public static final Sequence<Long> DIRECTORY_CATALOGUE_ID_SEQ = new SequenceImpl<Long>("directory_catalogue_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
+
+	/**
 	 * The sequence <code>public.json_query_id_seq</code>
 	 */
 	public static final Sequence<Long> JSON_QUERY_ID_SEQ = new SequenceImpl<Long>("json_query_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));

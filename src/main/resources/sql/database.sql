@@ -1,12 +1,45 @@
 CREATE TYPE "role_type" AS ENUM ('OWNER', 'RESEARCHER');
 CREATE TYPE "flag" AS ENUM ('UNFLAGGED', 'ARCHIVED', 'IGNORED', 'STARRED');
 
+CREATE TABLE directory_catalogue (
+    "id" SERIAL NOT NULL,
+    "name" CHARACTER VARYING(255) NOT NULL,
+    "url" CHARACTER VARYING(255) NOT NULL,
+    "rest_url" CHARACTER VARYING(255) NOT NULL,
+    "username" CHARACTER VARYING(255) NOT NULL,
+    "password" CHARACTER VARYING(255) NOT NULL,
+    "api_username" CHARACTER VARYING(255) NOT NULL,
+    "api_password" CHARACTER VARYING(255) NOT NULL,
+    "resource_biobanks" CHARACTER VARYING(255) NOT NULL,
+    "resource_collections" CHARACTER VARYING(255) NOT NULL,
+    "description" TEXT,
+    "sync_active" BOOLEAN,
+    PRIMARY KEY ("id")
+);
+
+COMMENT ON TABLE directory_catalogue IS 'Table to store directorys';
+COMMENT ON COLUMN directory_catalogue."id" IS 'primary key';
+COMMENT ON COLUMN directory_catalogue."name" IS 'The directory name';
+COMMENT ON COLUMN directory_catalogue."url" IS 'The directory url';
+COMMENT ON COLUMN directory_catalogue."rest_url" IS 'The directory API url';
+COMMENT ON COLUMN directory_catalogue."username" IS 'The directories username';
+COMMENT ON COLUMN directory_catalogue."password" IS 'The directoryíes password';
+COMMENT ON COLUMN directory_catalogue."api_username" IS 'The directories API username';
+COMMENT ON COLUMN directory_catalogue."api_password" IS 'The directories API password';
+COMMENT ON COLUMN directory_catalogue."resource_biobanks" IS 'The directories biobank model';
+COMMENT ON COLUMN directory_catalogue."resource_collections" IS 'The directories collection model';
+COMMENT ON COLUMN directory_catalogue."description" IS 'The description for this directory';
+
+
+
 CREATE TABLE biobank (
     "id" SERIAL NOT NULL,
     "name" CHARACTER VARYING(255) NOT NULL,
     "description" TEXT,
-    "directory_id" CHARACTER VARYING(255) NOT NULL UNIQUE,
-    PRIMARY KEY ("id")
+    "directory_catalogue_id" INTEGER REFERENCES directory_catalogue("id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "directory_id" CHARACTER VARYING(255) NOT NULL,
+    PRIMARY KEY ("id"),
+    unique(directory_id, directory_catalogue_id)
 );
 
 
@@ -14,6 +47,7 @@ COMMENT ON TABLE biobank IS 'Table to store biobanks from the directory';
 COMMENT ON COLUMN biobank."id" IS 'primary key';
 COMMENT ON COLUMN biobank."name" IS 'The biobank name';
 COMMENT ON COLUMN biobank."description" IS 'The description for this biobank';
+COMMENT ON COLUMN biobank."directory_catalogue_id" IS 'The Directory Catalogue this biobank belongs to';
 COMMENT ON COLUMN biobank."directory_id" IS 'The directory ID, e.g. eu_bbmri_eric_biobank:NL45';
 
 
@@ -21,9 +55,11 @@ COMMENT ON COLUMN biobank."directory_id" IS 'The directory ID, e.g. eu_bbmri_eri
 CREATE TABLE collection (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "directory_id" CHARACTER VARYING(255) NOT NULL UNIQUE,
+    "directory_id" CHARACTER VARYING(255) NOT NULL,
+    "directory_catalogue_id" INTEGER REFERENCES directory_catalogue("id") ON UPDATE CASCADE ON DELETE CASCADE,
     "biobank_id" INTEGER REFERENCES biobank("id") ON UPDATE CASCADE ON DELETE CASCADE,
-    PRIMARY KEY ("id")
+    PRIMARY KEY ("id"),
+    unique(directory_id, directory_catalogue_id)
 );
 CREATE INDEX "biobankIdIndexCollection" ON "collection" ("biobank_id");
 
@@ -32,6 +68,7 @@ COMMENT ON TABLE collection IS 'Table to store collections from the directory';
 COMMENT ON COLUMN collection."id" IS 'primary key';
 COMMENT ON COLUMN collection."name" IS 'The collection name';
 COMMENT ON COLUMN collection."directory_id" IS 'The directory ID, e.g. eu_bbmri_eric_collections:NL45:blood_collection';
+COMMENT ON COLUMN collection."directory_catalogue_id" IS 'The Directory Catalogue this collection belongs to';
 COMMENT ON COLUMN collection."biobank_id" IS 'The Biobank ID this collection belongs to';
 
 

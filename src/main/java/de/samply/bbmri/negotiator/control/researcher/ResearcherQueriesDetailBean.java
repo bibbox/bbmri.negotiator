@@ -39,6 +39,7 @@ import javax.servlet.http.Part;
 
 import de.samply.bbmri.negotiator.NegotiatorConfig;
 import de.samply.bbmri.negotiator.config.Negotiator;
+import de.samply.bbmri.negotiator.rest.dto.DirectoryQueriesDTO;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.jooq.Record;
 import org.jooq.Result;
@@ -178,9 +179,12 @@ public class ResearcherQueriesDetailBean implements Serializable {
                  * to get it from the database again.
                  */
                 RestApplication.NonNullObjectMapper mapperProvider = new RestApplication.NonNullObjectMapper();
+
+                //TODO: Update Multiple Queries
                 ObjectMapper mapper = mapperProvider.getContext(ObjectMapper.class);
-                queryDTO = mapper.readValue(selectedQuery.getJsonText(), QueryDTO.class);
-                setHumanReadableQuery(queryDTO.getHumanReadable());
+                DirectoryQueriesDTO directoryQueries = mapper.readValue(selectedQuery.getJsonText(), DirectoryQueriesDTO.class);
+                //queryDTO = mapper.readValue(selectedQuery.getJsonText(), QueryDTO.class);
+                setHumanReadableQuery(directoryQueries.getFormatedHumanReadableHTMLElement());
             }
 
         } catch (SQLException | IOException e) {

@@ -35,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Collection extends TableImpl<CollectionRecord> {
 
-	private static final long serialVersionUID = -1546670117;
+	private static final long serialVersionUID = -1624565583;
 
 	/**
 	 * The reference instance of <code>public.collection</code>
@@ -64,6 +64,11 @@ public class Collection extends TableImpl<CollectionRecord> {
 	 * The column <code>public.collection.directory_id</code>. The directory ID, e.g. eu_bbmri_eric_collections:NL45:blood_collection
 	 */
 	public final TableField<CollectionRecord, String> DIRECTORY_ID = createField("directory_id", org.jooq.impl.SQLDataType.VARCHAR.length(255).nullable(false), this, "The directory ID, e.g. eu_bbmri_eric_collections:NL45:blood_collection");
+
+	/**
+	 * The column <code>public.collection.directory_catalogue_id</code>. The Directory Catalogue this collection belongs to
+	 */
+	public final TableField<CollectionRecord, Integer> DIRECTORY_CATALOGUE_ID = createField("directory_catalogue_id", org.jooq.impl.SQLDataType.INTEGER, this, "The Directory Catalogue this collection belongs to");
 
 	/**
 	 * The column <code>public.collection.biobank_id</code>. The Biobank ID this collection belongs to
@@ -113,7 +118,7 @@ public class Collection extends TableImpl<CollectionRecord> {
 	 */
 	@Override
 	public List<UniqueKey<CollectionRecord>> getKeys() {
-		return Arrays.<UniqueKey<CollectionRecord>>asList(Keys.COLLECTION_PKEY, Keys.COLLECTION_DIRECTORY_ID_KEY);
+		return Arrays.<UniqueKey<CollectionRecord>>asList(Keys.COLLECTION_PKEY, Keys.COLLECTION_DIRECTORY_ID_DIRECTORY_CATALOGUE_ID_KEY);
 	}
 
 	/**
@@ -121,7 +126,7 @@ public class Collection extends TableImpl<CollectionRecord> {
 	 */
 	@Override
 	public List<ForeignKey<CollectionRecord, ?>> getReferences() {
-		return Arrays.<ForeignKey<CollectionRecord, ?>>asList(Keys.COLLECTION__COLLECTION_BIOBANK_ID_FKEY);
+		return Arrays.<ForeignKey<CollectionRecord, ?>>asList(Keys.COLLECTION__COLLECTION_DIRECTORY_CATALOGUE_ID_FKEY, Keys.COLLECTION__COLLECTION_BIOBANK_ID_FKEY);
 	}
 
 	/**

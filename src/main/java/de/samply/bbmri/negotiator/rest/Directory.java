@@ -43,6 +43,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import de.samply.bbmri.negotiator.rest.dto.DirectoryQueriesDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -97,7 +98,13 @@ public class Directory {
              */
             RestApplication.NonNullObjectMapper mapperProvider = new RestApplication.NonNullObjectMapper();
             ObjectMapper mapper = mapperProvider.getContext(ObjectMapper.class);
-            QueryDTO query = mapper.readValue(queryString, QueryDTO.class);
+            DirectoryQueriesDTO directoryQueries = mapper.readValue(queryString, DirectoryQueriesDTO.class);
+            QueryDTO query = null;
+            for(QueryDTO query1 : directoryQueries.getDirectoryqueries()) {
+                logger.info("query: " + query1.getHumanReadable() + query1.getUrl());
+                query = query1;
+            }
+            //QueryDTO query = mapper.readValue(queryString, QueryDTO.class);
 
             if(query == null || query.getUrl() == null || query.getHumanReadable() == null || query.getCollections() == null) {
                 logger.error("Directory posted empty URL, no human readable text or no collections, aborting");

@@ -29,6 +29,7 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:composite="http://java.sun.com/jsf/composite"
 >
@@ -63,10 +64,13 @@
 
         <h:panelGroup styleClass="text" layout="block">
             <h:outputLabel value="#{label['queryview.title.searchParameters']}"/>
-            <h:outputText
-                    value="#{cc.attrs.bean.humanReadableQuery}"
-                    style="margin-left: 22px;">
-            </h:outputText>
+            <ui:repeat value="#{cc.attrs.bean.selectedQuery.DirectoryQueries}" var="queriesdto">
+                <h:outputText
+                        value="#{cc.attrs.bean.humanReadableQuery}"
+                        style="margin-left: 22px;"
+                        escape="false">
+                </h:outputText>
+            </ui:repeat>
         </h:panelGroup>
     </h:panelGroup>
 </composite:implementation>

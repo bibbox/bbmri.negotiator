@@ -14,6 +14,7 @@ import java.util.List;
 import javax.annotation.Generated;
 
 import org.jooq.Field;
+import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -34,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Biobank extends TableImpl<BiobankRecord> {
 
-	private static final long serialVersionUID = -1596845748;
+	private static final long serialVersionUID = 624147345;
 
 	/**
 	 * The reference instance of <code>public.biobank</code>
@@ -63,6 +64,11 @@ public class Biobank extends TableImpl<BiobankRecord> {
 	 * The column <code>public.biobank.description</code>. The description for this biobank
 	 */
 	public final TableField<BiobankRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.CLOB, this, "The description for this biobank");
+
+	/**
+	 * The column <code>public.biobank.directory_catalogue_id</code>. The Directory Catalogue this biobank belongs to
+	 */
+	public final TableField<BiobankRecord, Integer> DIRECTORY_CATALOGUE_ID = createField("directory_catalogue_id", org.jooq.impl.SQLDataType.INTEGER, this, "The Directory Catalogue this biobank belongs to");
 
 	/**
 	 * The column <code>public.biobank.directory_id</code>. The directory ID, e.g. eu_bbmri_eric_biobank:NL45
@@ -112,7 +118,15 @@ public class Biobank extends TableImpl<BiobankRecord> {
 	 */
 	@Override
 	public List<UniqueKey<BiobankRecord>> getKeys() {
-		return Arrays.<UniqueKey<BiobankRecord>>asList(Keys.BIOBANK_PKEY, Keys.BIOBANK_DIRECTORY_ID_KEY);
+		return Arrays.<UniqueKey<BiobankRecord>>asList(Keys.BIOBANK_PKEY, Keys.BIOBANK_DIRECTORY_ID_DIRECTORY_CATALOGUE_ID_KEY);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<ForeignKey<BiobankRecord, ?>> getReferences() {
+		return Arrays.<ForeignKey<BiobankRecord, ?>>asList(Keys.BIOBANK__BIOBANK_DIRECTORY_CATALOGUE_ID_FKEY);
 	}
 
 	/**

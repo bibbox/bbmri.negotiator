@@ -22,11 +22,12 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Collection implements Serializable {
 
-	private static final long serialVersionUID = -883020451;
+	private static final long serialVersionUID = 1806430246;
 
 	private Integer id;
 	private String  name;
 	private String  directoryId;
+	private Integer directoryCatalogueId;
 	private Integer biobankId;
 
 	public Collection() {}
@@ -35,6 +36,7 @@ public class Collection implements Serializable {
 		this.id = value.id;
 		this.name = value.name;
 		this.directoryId = value.directoryId;
+		this.directoryCatalogueId = value.directoryCatalogueId;
 		this.biobankId = value.biobankId;
 	}
 
@@ -42,11 +44,13 @@ public class Collection implements Serializable {
 		Integer id,
 		String  name,
 		String  directoryId,
+		Integer directoryCatalogueId,
 		Integer biobankId
 	) {
 		this.id = id;
 		this.name = name;
 		this.directoryId = directoryId;
+		this.directoryCatalogueId = directoryCatalogueId;
 		this.biobankId = biobankId;
 	}
 
@@ -72,6 +76,14 @@ public class Collection implements Serializable {
 
 	public void setDirectoryId(String directoryId) {
 		this.directoryId = directoryId;
+	}
+
+	public Integer getDirectoryCatalogueId() {
+		return this.directoryCatalogueId;
+	}
+
+	public void setDirectoryCatalogueId(Integer directoryCatalogueId) {
+		this.directoryCatalogueId = directoryCatalogueId;
 	}
 
 	public Integer getBiobankId() {

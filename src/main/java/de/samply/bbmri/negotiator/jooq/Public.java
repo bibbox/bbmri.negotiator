@@ -8,6 +8,7 @@ import de.samply.bbmri.negotiator.jooq.tables.Biobank;
 import de.samply.bbmri.negotiator.jooq.tables.Collection;
 import de.samply.bbmri.negotiator.jooq.tables.Comment;
 import de.samply.bbmri.negotiator.jooq.tables.ConnectorLog;
+import de.samply.bbmri.negotiator.jooq.tables.DirectoryCatalogue;
 import de.samply.bbmri.negotiator.jooq.tables.FlaggedQuery;
 import de.samply.bbmri.negotiator.jooq.tables.JsonQuery;
 import de.samply.bbmri.negotiator.jooq.tables.Offer;
@@ -43,7 +44,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-	private static final long serialVersionUID = 1022191354;
+	private static final long serialVersionUID = -94205639;
 
 	/**
 	 * The reference instance of <code>public</code>
@@ -70,6 +71,7 @@ public class Public extends SchemaImpl {
 			Sequences.COLLECTION_ID_SEQ,
 			Sequences.COMMENT_ID_SEQ,
 			Sequences.CONNECTOR_LOG_ID_SEQ,
+			Sequences.DIRECTORY_CATALOGUE_ID_SEQ,
 			Sequences.JSON_QUERY_ID_SEQ,
 			Sequences.OFFER_ID_SEQ,
 			Sequences.PERSON_ID_SEQ,
@@ -91,6 +93,7 @@ public class Public extends SchemaImpl {
 			Collection.COLLECTION,
 			Comment.COMMENT,
 			ConnectorLog.CONNECTOR_LOG,
+			DirectoryCatalogue.DIRECTORY_CATALOGUE,
 			FlaggedQuery.FLAGGED_QUERY,
 			JsonQuery.JSON_QUERY,
 			Offer.OFFER,
