@@ -7,10 +7,12 @@ package de.samply.bbmri.negotiator.jooq.tables.pojos;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.samply.bbmri.negotiator.rest.RestApplication;
 import de.samply.bbmri.negotiator.rest.dto.DirectoryQueriesDTO;
+import de.samply.bbmri.negotiator.rest.dto.QueryDTO;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Collection;
 
 import javax.annotation.Generated;
 
@@ -84,11 +86,12 @@ public class Query implements Serializable {
 		this.ethicsVote = ethicsVote;
 	}
 
-	public DirectoryQueriesDTO getDirectoryQueries() {
+	public Collection<QueryDTO> getDirectoryQueries() {
 		RestApplication.NonNullObjectMapper mapperProvider = new RestApplication.NonNullObjectMapper();
 		ObjectMapper mapper = mapperProvider.getContext(ObjectMapper.class);
 		try {
-			return mapper.readValue(this.jsonText, DirectoryQueriesDTO.class);
+			DirectoryQueriesDTO directoryQueries = mapper.readValue(this.jsonText, DirectoryQueriesDTO.class);
+			return directoryQueries.getDirectoryqueries();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

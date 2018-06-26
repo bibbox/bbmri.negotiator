@@ -26,6 +26,11 @@
 
 package de.samply.bbmri.negotiator.rest.dto;
 
+import de.samply.bbmri.negotiator.Config;
+import de.samply.bbmri.negotiator.ConfigFactory;
+import de.samply.bbmri.negotiator.db.util.DbUtil;
+
+import java.sql.SQLException;
 import java.util.Collection;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -56,10 +61,27 @@ public class QueryDTO {
     private Collection<CollectionDTO> collections;
 
     /**
+     * Subquery Token for each request
+     */
+    @XmlElement(name = "qToken")
+    private String qToken;
+
+    /**
      * The negotiator token. Only not null, if the user refines the query in the negotiator.
      */
     @XmlElement(name = "nToken")
     private String token;
+
+
+
+    public String getDirectoryName() {
+        try(Config config = ConfigFactory.get()) {
+            return DbUtil.getDirectoryCatalogueName(config, url);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 
     public String getUrl() {
         return url;
@@ -91,5 +113,11 @@ public class QueryDTO {
 
     public void setHumanReadable(String humanReadable) {
         this.humanReadable = humanReadable;
+    }
+
+    public String getQToken() { return qToken; }
+
+    public void setQToken(String qToken) {
+        this.qToken = qToken;
     }
 }

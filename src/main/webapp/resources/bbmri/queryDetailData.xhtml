@@ -64,14 +64,37 @@
 
         <h:panelGroup styleClass="text" layout="block">
             <h:outputLabel value="#{label['queryview.title.searchParameters']}"/>
-            <ui:repeat value="#{cc.attrs.bean.selectedQuery.DirectoryQueries}" var="queriesdto">
-                <h:outputText
-                        value="#{cc.attrs.bean.humanReadableQuery}"
-                        style="margin-left: 22px;"
-                        escape="false">
-                </h:outputText>
-            </ui:repeat>
+            <div style="display: table;width: auto;">
+                <ui:repeat value="#{cc.attrs.bean.selectedQuery.directoryQueries}" var="queriesdto">
+                    <div style="display:table-row;width:auto;">
+                        <div style="float:left;display:table-column;width:200px;">
+                            <h:outputText
+                                    value="#{queriesdto.getDirectoryName()}"
+                                    style="margin-left: 22px;font-weight: bold;"
+                                    escape="false">
+                            </h:outputText>
+                        </div>
+                        <div style="float:left;display:table-column;width:500px;">
+                            <h:outputText
+                                    value="#{queriesdto.getHumanReadable()}"
+                                    style="margin-left: 22px;"
+                                    escape="false">
+                            </h:outputText>
+                        </div>
+                        <div style="float:left;display:table-column;margin: 5px;">
+                            <h:form>
+                                <h:commandLink action="#{queryBean.editSearchParameters(queriesdto.getQToken())}"	styleClass="btn btn-primary"
+                                               title="#{label['queryview.tooltip.editSearchParameters']}">
+                                    #{label['queryview.title.editSearchParameters']}
+                                </h:commandLink>
+                            </h:form>
+                        </div>
+
+                    </div>
+                </ui:repeat>
+            </div>
         </h:panelGroup>
+
     </h:panelGroup>
 </composite:implementation>
 

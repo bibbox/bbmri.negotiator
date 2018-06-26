@@ -240,7 +240,7 @@ private static Logger logger = LoggerFactory.getLogger(QueryBean.class);
  * @throws JsonMappingException
  * @throws JsonParseException
     */
-   public void editSearchParameters() throws JsonParseException, JsonMappingException, IOException {
+   public void editSearchParameters(String qToken) throws JsonParseException, JsonMappingException, IOException {
        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 
        /**

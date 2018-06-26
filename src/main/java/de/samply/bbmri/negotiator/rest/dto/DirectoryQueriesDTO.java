@@ -23,20 +23,4 @@ public class DirectoryQueriesDTO {
     public void setDirectoryqueries(Collection<QueryDTO> directoryqueries) {
         this.directoryqueries = directoryqueries;
     }
-
-    public String getFormatedHumanReadableHTMLElement() {
-        try(Config config = ConfigFactory.get()) {
-
-            String humanReadableQueryData = "<div style=\"display: table;width: auto;\">";
-            for(QueryDTO query : directoryqueries) {
-                String directoryName = DbUtil.getDirectoryCatalogueName(config, query.getUrl());
-                humanReadableQueryData += "<div style=\"display:table-row;width:auto;\"><div style=\"float:left;display:table-column;width:200px;\">" + directoryName + "</div><div style=\"float:left;display:table-column;\">" + query.getHumanReadable() + "</div></div>";
-            }
-            humanReadableQueryData += "</div>";
-            return humanReadableQueryData;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
 }

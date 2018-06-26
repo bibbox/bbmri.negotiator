@@ -184,7 +184,8 @@ public class ResearcherQueriesDetailBean implements Serializable {
                 ObjectMapper mapper = mapperProvider.getContext(ObjectMapper.class);
                 DirectoryQueriesDTO directoryQueries = mapper.readValue(selectedQuery.getJsonText(), DirectoryQueriesDTO.class);
                 //queryDTO = mapper.readValue(selectedQuery.getJsonText(), QueryDTO.class);
-                setHumanReadableQuery(directoryQueries.getFormatedHumanReadableHTMLElement());
+                //setHumanReadableQuery(directoryQueries.getFormatedHumanReadableHTMLElement());
+                setHumanReadableQuery("-------ROBERT-------");
             }
 
         } catch (SQLException | IOException e) {
