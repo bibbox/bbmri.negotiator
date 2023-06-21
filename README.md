@@ -1,5 +1,5 @@
 # Negotiator
-
+## IMPORTANT: This repository is deprecated and should not be used.
 This is the BBMRI negotiator
 
 ## Maven note
